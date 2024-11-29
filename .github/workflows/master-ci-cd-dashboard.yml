@@ -1,4 +1,4 @@
-name: master-ci-cd-operation
+name: master-ci-cd-dashboard
 
 on:
   push:
