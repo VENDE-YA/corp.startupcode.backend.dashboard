@@ -2,13 +2,13 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ThrottlerModule } from '@nestjs/throttler';
-
 import configuration from './configs/configuration';
 import { AppController } from './app.controller';
 import { HeadersMiddleware } from './commons/middlewares';
 import { HomeController } from './modules/home/home.controller';
 import { HomeModule } from './modules/home/home.module';
 import { EventModule } from './modules/event/event.module';
+import { SecurityModule } from './commons/client/security/security.module';
 
 @Module({
   imports: [
@@ -16,6 +16,13 @@ import { EventModule } from './modules/event/event.module';
       isGlobal: true,
       cache: true,
       load: [configuration],
+    }),
+    SecurityModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) =>
+        configService.get('client.security'),
+      inject: [ConfigService],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -34,7 +41,7 @@ import { EventModule } from './modules/event/event.module';
       }),
     }),
     HomeModule,
-    EventModule,
+    EventModule
   ],
   controllers: [AppController],
   providers: [],

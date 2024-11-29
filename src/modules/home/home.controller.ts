@@ -1,7 +1,5 @@
 import {
   Controller,
-  Post,
-  Body,
   UseGuards,
   Get,
   Req,
@@ -10,18 +8,19 @@ import {
 } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import {
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiTags,
 } from '@nestjs/swagger';
-
 import { Request } from 'express';
-
 import * as commonsDto from 'src/commons/dto';
-import * as commonsExceptions from 'src/commons/exceptions';
 import * as services from './services';
+import { SecurityGuard } from 'src/commons/guard/security.guard';
 
+@ApiBearerAuth()
+@UseGuards(SecurityGuard)
 @Controller('home')
 @ApiTags('HOME')
 export class HomeController {

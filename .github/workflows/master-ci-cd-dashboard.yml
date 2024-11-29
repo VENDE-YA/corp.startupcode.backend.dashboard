@@ -1,0 +1,92 @@
+name: master-ci-cd-operation
+
+on:
+  push:
+    branches: [master]
+    
+  pull_request:
+    branches: [master]
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+
+    - name: Check if secrets are set
+      run: |
+          echo "Checking if secrets are properly set..."
+          if [[ -z "${{ secrets.MASTER_ENV_DATABASE_MONGO_HOSTNAME }}" ]]; then
+            echo "DATABASE_MONGO_HOSTNAME is NOT set!"
+          else
+            echo "DATABASE_MONGO_HOSTNAME is set."
+          fi
+
+    - name: Generate .env file
+      run: |
+        echo "Generating .env file"
+        echo "SERVICE_HTTP_HOST=0.0.0.0" > .env
+        echo "SERVICE_HTTP_PORT=4003" >> .env
+        echo "SERVICE_TCP_HOST=0.0.0.0" >> .env
+        echo "SERVICE_TCP_PORT=40003" >> .env
+        echo "CLIENT_SECURITY_HOST=0.0.0.0" > .env
+        echo "CLIENT_SECURITY_PORT=40000" > .env
+        echo "SERVICE_BASE_PATH=/api" >> .env
+        echo "SERVICE_HTTP_THROTTLE_TTL=60" >> .env
+        echo "SERVICE_HTTP_THROTTLE_LIMIT=100" >> .env
+        echo "SWAGGER_BASE_PATH=/api/microservice-dashboard" >> .env
+        echo "DATABASE_MONGO_HOSTNAME=${{ secrets.MASTER_ENV_DATABASE_MONGO_HOSTNAME }}" >> .env
+        echo "DATABASE_MONGO_USER=${{ secrets.MASTER_ENV_DATABASE_MONGO_USER }}" >> .env
+        echo "DATABASE_MONGO_PASSWORD=${{ secrets.MASTER_ENV_DATABASE_MONGO_PASSWORD }}" >> .env
+        echo "DATABASE_MONGO_NAME=${{ secrets.MASTER_ENV_DATABASE_MONGO_NAME }}" >> .env
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Docker Image
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Push Docker Image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
+
+  deploy_to_ec2:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+
+    - name: Build & Deploy
+      env:
+        PRIVATE_KEY: ${{ secrets.MASTER_EC2_SSH_PRIVATE_KEY }}
+        HOSTNAME: ${{secrets.MASTER_EC2_SSH_HOST}}
+        USER_NAME: ${{secrets.MASTER_EC2_SSH_USERNAME}}
+
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+          # PULL DOCKER AND STARTER DEPLOY TO EC2.
+          sudo su
+          docker stop microservice-dashboard
+          docker rm microservice-dashboard
+          docker rmi ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs
+          docker pull ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
+          docker run -d -p 4003:4003 -p 40003:40003 --cpus 0.4 -m 700m --name microservice-dashboard --net=microservices_network --ip=172.18.0.4 ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
+          '

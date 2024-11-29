@@ -1,3 +1,11 @@
+export const CLIENT = {
+  SECURITY: 'TCP_CLIENT_SECURITY',
+};
+
+export const KEYS = {
+  ENCRYPT_DECRYPT: 'pXJoZtVx1A98r5BSN/PPce9HbDhqQKQySFafIOILHaw=',
+};
+
 export const PERIOD = {
   DAY: 'Dia',
   WEEK: 'Semana',

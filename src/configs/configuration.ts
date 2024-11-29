@@ -8,6 +8,12 @@ export default () => ({
       limit: process.env.SERVICE_HTTP_THROTTLE_LIMIT,
     },
   },
+  client: {
+    security: {
+      host: process.env.CLIENT_SECURITY_HOST,
+      port: process.env.CLIENT_SECURITY_PORT,
+    },
+  },
   tcp: {
     host: process.env.SERVICE_TCP_HOST,
     port: process.env.SERVICE_TCP_PORT,
