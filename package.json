@@ -32,8 +32,6 @@
     "@nestjs/throttler": "^4.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
-    "corp.startupcode.backend.dashboard": "file:",
-    "corp.startupcode.backend.operation": "file:",
     "crypto-js": "^4.2.0",
     "jwt-decode": "^3.1.2",
     "mongoose": "^5.13.14",
