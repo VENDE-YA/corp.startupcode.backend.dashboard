@@ -88,5 +88,5 @@ jobs:
           docker rm microservice-dashboard
           docker rmi ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs
           docker pull ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
-          docker run -d -p 4003:4003 -p 40003:40003 --cpus 0.4 -m 700m --name microservice-dashboard ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
+          docker run -d -p 4003:4003 -p 40003:40003 --cpus 0.4 -m 700m --name microservice-dashboard  ${{ secrets.DOCKER_USERNAME }}/corp-jdp-vendeya-backend-microservice-dashboard-nodejs:latest
           '
