@@ -46,7 +46,8 @@ jobs:
         echo "DATABASE_MONGO_USER=${{ secrets.MASTER_ENV_DATABASE_MONGO_USER }}" >> .env
         echo "DATABASE_MONGO_PASSWORD=${{ secrets.MASTER_ENV_DATABASE_MONGO_PASSWORD }}" >> .env
         echo "DATABASE_MONGO_NAME=${{ secrets.MASTER_ENV_DATABASE_MONGO_NAME }}" >> .env
-
+        echo "JWT_SECRET=${{ secrets.MASTER_JWT_SECRET }} >> .env
+        
     - name: Install Dependencies
       run: npm install
 
