@@ -36,7 +36,7 @@ jobs:
         echo "SERVICE_HTTP_PORT=4003" >> .env
         echo "SERVICE_TCP_HOST=0.0.0.0" >> .env
         echo "SERVICE_TCP_PORT=40003" >> .env
-        echo "CLIENT_SECURITY_HOST=" >> .env
+        echo "CLIENT_SECURITY_HOST=microservice-security" >> .env
         echo "CLIENT_SECURITY_PORT=40000" >> .env
         echo "SERVICE_BASE_PATH=/api" >> .env
         echo "SERVICE_HTTP_THROTTLE_TTL=60" >> .env
