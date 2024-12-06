@@ -32,7 +32,7 @@ jobs:
     - name: Generate .env file
       run: |
         echo "Generating .env file"
-        echo "SERVICE_HTTP_HOST=0.0.0.0" >> .env
+        echo "SERVICE_HTTP_HOST=0.0.0.0" > .env
         echo "SERVICE_HTTP_PORT=4003" >> .env
         echo "SERVICE_TCP_HOST=0.0.0.0" >> .env
         echo "SERVICE_TCP_PORT=40003" >> .env
