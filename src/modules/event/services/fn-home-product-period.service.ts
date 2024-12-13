@@ -14,7 +14,7 @@ export class FnHomeProductPeriodService {
   ) {}
 
   async execute(payload: interfaces.IDashboardHomeProductPeriod) {
-    this.logger.debug(`execute:payload`, JSON.stringify(payload))
+    this.logger.debug(`execute:payload`, JSON.stringify(payload));
     const now = new Date();
     const timezoneOffset = now.getTimezoneOffset();
     const currentYear = this.getYear(now);
@@ -156,6 +156,7 @@ export class FnHomeProductPeriodService {
     periodDay: any[],
     operation: string,
   ) {
+
     const baseFilter = {
       _id: homeProductId,
       'details.period': period,

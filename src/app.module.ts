@@ -9,6 +9,8 @@ import { HomeController } from './modules/home/home.controller';
 import { HomeModule } from './modules/home/home.module';
 import { EventModule } from './modules/event/event.module';
 import { SecurityModule } from './commons/client/security/security.module';
+import { EventsController } from './modules/event/event.controller';
+import { FnHomeProductPeriodService, FnHomeSalePeriodService } from './modules/event/services';
 
 @Module({
   imports: [

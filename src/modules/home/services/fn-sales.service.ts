@@ -19,6 +19,7 @@ export class FnSalesService {
 
     const findHomeSalesForYear: any =
       await this.homeSaleService.findHomeSalesForYear(this.getYear());
+
     if (!findHomeSalesForYear) {
       return <commonsDtos.ResponseDto>{
         message: 'Processo exitoso',
@@ -65,6 +66,7 @@ export class FnSalesService {
     const { records: recordsMonth } = details.find(
       (detail) => detail.period == PERIOD.MONTH,
     );
+    this.logger.debug(`recordsDay ${JSON.stringify(recordsDay)}`)
     const recordDay = recordsDay.filter(
       (record: { period_format: string }) => record.period_format == day,
     );

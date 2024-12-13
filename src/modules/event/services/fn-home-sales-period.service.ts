@@ -14,7 +14,7 @@ export class FnHomeSalePeriodService {
   ) {}
 
   async execute(payload: interfaces.IDashboardHomeSalePeriod) {
-    this.logger.debug(`execute:payload`, JSON.stringify(payload))
+    this.logger.debug(`execute:payload`, JSON.stringify(payload));
     const now = new Date();
     const timezoneOffset = now.getTimezoneOffset();
     const currentYear = this.getYear(now);
@@ -35,6 +35,8 @@ export class FnHomeSalePeriodService {
       this.saleService.findSalesForWeek(this.getMatchForWeek(now, timezoneOffset)),
       this.saleService.findSalesForMonth(this.getMatchForMonth(now, timezoneOffset)),
     ]);
+
+    this.logger.debug(`saleForDay ${JSON.stringify(saleForDay)}`);
 
     const [
       operationDayBulkWrite,
