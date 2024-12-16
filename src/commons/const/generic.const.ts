@@ -15,16 +15,16 @@ export const PERIOD = {
 export const STATUS = {
   CREATED: {
     VALUE: 1,
-    CODE: 'CREATED'
+    CODE: 'CREATED',
   },
   SALE: {
     ADD_TO_CART: {
       VALUE: 2,
-      CODE: 'ADD_TO_CART'
+      CODE: 'ADD_TO_CART',
     },
     REGISTER_TO_PRINT: {
       VALUE: 3,
-      CODE: 'REGISTER_TO_PRINT'
-    }
-  }
-}
+      CODE: 'REGISTER_TO_PRINT',
+    },
+  },
+};

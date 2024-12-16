@@ -1,11 +1,4 @@
-import {
-  Controller,
-  UseGuards,
-  Get,
-  Req,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, UseGuards, Get, Req, Param, Query } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import {
   ApiBearerAuth,

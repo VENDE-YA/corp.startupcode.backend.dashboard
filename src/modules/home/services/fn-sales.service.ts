@@ -66,7 +66,7 @@ export class FnSalesService {
     const { records: recordsMonth } = details.find(
       (detail) => detail.period == PERIOD.MONTH,
     );
-    this.logger.debug(`recordsDay ${JSON.stringify(recordsDay)}`)
+
     const recordDay = recordsDay.filter(
       (record: { period_format: string }) => record.period_format == day,
     );
@@ -78,9 +78,18 @@ export class FnSalesService {
     );
 
     return {
-      recordDay: recordDay.length > 0 ? recordDay[0] : this.calculateSale([], PERIOD.DAY), 
-      recordWeek: recordWeek.length > 0 ? recordWeek[0] : this.calculateSale([], PERIOD.WEEK),
-      recordMonth: recordMonth.length > 0 ? recordMonth[0] : this.calculateSale([], PERIOD.MONTH),
+      recordDay:
+        recordDay.length > 0
+          ? recordDay[0]
+          : this.calculateSale([], PERIOD.DAY),
+      recordWeek:
+        recordWeek.length > 0
+          ? recordWeek[0]
+          : this.calculateSale([], PERIOD.WEEK),
+      recordMonth:
+        recordMonth.length > 0
+          ? recordMonth[0]
+          : this.calculateSale([], PERIOD.MONTH),
     };
   }
 

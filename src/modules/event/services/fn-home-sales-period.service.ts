@@ -31,13 +31,17 @@ export class FnHomeSalePeriodService {
     }
 
     const [saleForDay, saleForWeek, saleForMonth] = await Promise.all([
-      this.saleService.findSalesForDay(this.getMatchForDay(now, timezoneOffset)),
-      this.saleService.findSalesForWeek(this.getMatchForWeek(now, timezoneOffset)),
-      this.saleService.findSalesForMonth(this.getMatchForMonth(now, timezoneOffset)),
+      this.saleService.findSalesForDay(
+        this.getMatchForDay(now, timezoneOffset),
+      ),
+      this.saleService.findSalesForWeek(
+        this.getMatchForWeek(now, timezoneOffset),
+      ),
+      this.saleService.findSalesForMonth(
+        this.getMatchForMonth(now, timezoneOffset),
+      ),
     ]);
-
-    this.logger.debug(`saleForDay ${JSON.stringify(saleForDay)}`);
-
+    
     const [
       operationDayBulkWrite,
       operationWeekBulkWrite,
@@ -160,25 +164,25 @@ export class FnHomeSalePeriodService {
     const startDate = new Date(now.setHours(0, 0, 0, 0));
     const endDate = new Date(now.setHours(23, 59, 59, 999));
     //startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
-    //endDate.setMinutes(endDate.getMinutes() - timezoneOffset);  
+    //endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
     return { $gte: startDate, $lte: endDate };
   }
 
   private getMatchForWeek(now: Date, timezoneOffset: number) {
     const dayOfWeek = now.getDay();
-  
+
     const startDate = new Date(now);
     startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
-    
+
     startDate.setDate(now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
     startDate.setHours(0, 0, 0, 0);
-  
+
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6);
     endDate.setHours(23, 59, 59, 999);
-    
+
     //endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
-  
+
     return { $gte: startDate, $lte: endDate };
   }
 
@@ -189,7 +193,7 @@ export class FnHomeSalePeriodService {
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     endDate.setHours(23, 59, 59, 999);
     //startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
-    //endDate.setMinutes(endDate.getMinutes() - timezoneOffset);  
+    //endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
     return { $gte: startDate, $lte: endDate };
   }
 }

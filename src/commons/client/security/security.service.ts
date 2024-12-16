@@ -18,5 +18,4 @@ export class SecurityService {
     };
     return this.client.send<TResult, TInput>(pattern, dto).toPromise();
   }
-
 }

@@ -22,7 +22,7 @@ import { SecurityModule } from 'src/commons/client/security/security.module';
     HomeSaleModule,
     HomeProductModule,
     SecurityModule,
-    CryptoModule
+    CryptoModule,
   ],
   controllers: [HomeController],
   providers: [services.FnProductsService, services.FnSalesService],

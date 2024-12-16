@@ -12,7 +12,7 @@ import { HomeProductModule } from 'src/commons/modules/home-product/home-product
     EventEmitterModule.forRoot(),
     SaleModule,
     HomeSaleModule,
-    HomeProductModule
+    HomeProductModule,
   ],
   controllers: [EventsController],
   providers: [

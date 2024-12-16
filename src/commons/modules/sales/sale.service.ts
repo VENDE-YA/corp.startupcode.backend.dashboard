@@ -13,7 +13,6 @@ export class SaleService {
   ) {}
 
   async findProductsForPeriod(matchPeriod: any) {
-
     return await this.salesModel.aggregate([
       {
         $match: {
@@ -46,13 +45,12 @@ export class SaleService {
   }
 
   async findSalesForDay(matchPeriod: any) {
-    this.logger.debug(`findSalesForDay ${JSON.stringify(matchPeriod)}`);
     return await this.salesModel.aggregate([
       {
         $match: {
           'auditProperties.status.code': STATUS.SALE.REGISTER_TO_PRINT.VALUE,
-           'auditProperties.dateUpdate': matchPeriod
-        }
+          'auditProperties.dateUpdate': matchPeriod,
+        },
       },
       {
         $project: {
@@ -79,13 +77,12 @@ export class SaleService {
   }
 
   async findSalesForWeek(matchPeriod: any) {
-    this.logger.debug(`findSalesForWeek ${JSON.stringify(matchPeriod)}`);
     return await this.salesModel.aggregate([
       {
         $match: {
           'auditProperties.status.code': STATUS.SALE.REGISTER_TO_PRINT.VALUE,
-           'auditProperties.dateUpdate': matchPeriod
-        }
+          'auditProperties.dateUpdate': matchPeriod,
+        },
       },
       {
         $project: {
@@ -107,13 +104,12 @@ export class SaleService {
   }
 
   async findSalesForMonth(matchPeriod: any) {
-    this.logger.debug(`findSalesForMonth ${JSON.stringify(matchPeriod)}`);
     return await this.salesModel.aggregate([
       {
         $match: {
           'auditProperties.status.code': STATUS.SALE.REGISTER_TO_PRINT.VALUE,
-           'auditProperties.dateUpdate': matchPeriod
-        }
+          'auditProperties.dateUpdate': matchPeriod,
+        },
       },
       {
         $project: {
